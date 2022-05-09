@@ -29,3 +29,5 @@ jobs:
           branch: gh-pages
           # The folder the action should deploy. Adapt if you changed in Quarto config
           folder: publish/
+          # Organizations require token of the bearer!
+          token: ${{ secrets.GITHUB_TOKEN }}
