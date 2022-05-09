@@ -10,7 +10,7 @@ name: Render and deploy Book
 jobs:
   docker:
     runs-on: ubuntu-latest
-    container: ghcr.io/StructuralEquationModels/sem-talk:main
+    container: ghcr.io/structuralequationmodels/sem-talk:main
     steps:
       - 
         name: Checkout repository
