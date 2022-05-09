@@ -14,7 +14,7 @@ figures/lorem_ipsum_green.pdf: latex/lorem_ipsum_green.tex
 	xelatex $<
 	mv $(notdir $(basename $<).pdf) $@
 	
-figures/lorem_ipsum_red.pdf: latex/lorem_ipsum_green.tex
+figures/lorem_ipsum_red.pdf: latex/lorem_ipsum_red.tex
 	xelatex $<
 	mv $(notdir $(basename $<).pdf) $@
 
