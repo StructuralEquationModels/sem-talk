@@ -1,0 +1,21 @@
+on:
+  push:
+    branches: main
+  registry_package:
+    types: [published, updated]
+  workflow_dispatch:
+
+name: Render and deploy Book
+
+jobs:
+  docker:
+    runs-on: ubuntu-latest
+    container: ghcr.io/StructuralEquationModels/sem-talk:main
+    steps:
+      - 
+        name: Checkout repository
+        uses: actions/checkout@v3
+      - 
+        name: Render book to all formats
+        run: |
+        make
