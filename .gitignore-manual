@@ -1,0 +1,6 @@
+# manually ignored files
+.gitignore
+*.pdf
+*.html
+beamerthemeExecushares.sty
+fonts/
