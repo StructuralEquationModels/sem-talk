@@ -18,8 +18,7 @@ jobs:
       - 
         name: Render PDF
         run: |
-          make
-          make clean
+          make publish/
       - 
         name: Deploy 🚀
         # only deploy when push to main
@@ -29,4 +28,4 @@ jobs:
           # The branch the action should deploy to.
           branch: gh-pages
           # The folder the action should deploy. Adapt if you changed in Quarto config
-          folder: .
+          folder: publish/
