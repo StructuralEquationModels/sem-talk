@@ -19,7 +19,7 @@ figures/lorem_ipsum_red.pdf: latex/lorem_ipsum_green.tex
 	mv $(notdir $(basename $<).pdf) $@
 
 figures/julia_logo.pdf: figures/julia_logo.svg
-	inkscape --export-area-page --export-filename=$@ $<
+	inkscape --export-area-page --export-pdf=$@ $<
 
 fonts/:
 	mkdir -p $@
