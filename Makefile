@@ -28,8 +28,3 @@ figures/julia_logo.pdf: figures/julia_logo.svg
 fonts/:
 	mkdir -p $@
 	curl -sL https://github.com/cormullion/juliamono/releases/download/v0.045/JuliaMono-ttf.tar.gz| tar -zxf - --directory $@
-
-.PHONY: clean
-clean: ruby/clean.rb
-	ruby $@
-	
