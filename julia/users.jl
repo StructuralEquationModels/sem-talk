@@ -1,3 +1,5 @@
+using Pkg
+Pkg.instantiate()
 using Plots
 x = 1:7
 logocolors = Colors.JULIA_LOGO_COLORS

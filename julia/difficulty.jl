@@ -1,3 +1,5 @@
+using Pkg
+Pkg.instantiate()
 using Plots
 x = 1:7
 spss = [1, 2, 3, 10, 10, 10, 10]
