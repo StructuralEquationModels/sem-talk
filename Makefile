@@ -26,10 +26,10 @@ figures/julia_logo.pdf: figures/julia_logo.svg
 	inkscape --export-area-page --export-pdf=$@ $<
 
 figures/difficulty.pdf: julia/difficulty.jl
-	julia $<
+	julia --project $<
 
 figures/users.pdf: julia/users.jl
-	julia $<
+	julia --project $<
 
 fonts/:
 	mkdir -p $@
