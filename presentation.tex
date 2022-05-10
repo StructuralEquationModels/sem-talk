@@ -22,9 +22,9 @@
 
 
 \title{Extensible Software for Research}
-\subtitle{principles and an example in julia}
-\author{Maximilian Ernst}
-\date{Center for Lifespan Psychology, Max Planck Institute for Human Development}
+%\subtitle{principles and an example in julia}
+\author{Aaron Peikert}
+\date{Maximilian Ernst}
 
 \setcounter{showSlideNumbers}{1}
 
@@ -67,87 +67,94 @@
 	\setcounter{framenumber}{0}
 	\setcounter{showProgressBar}{1}
 	\setcounter{showSlideNumbers}{1}
-
+	
     \begin{frame}
         \frametitle{Contents}
         \vspace{1cm}
         \begin{wideitemize}
-            \item Why should you care?
+            \item Principles of Extensible Research Software
         \end{wideitemize}
         \vspace{1cm}
         \begin{wideitemize}
-            \item How do you get there?
+            \item Application: StructuralEquationModels.jl
         \end{wideitemize}
     \end{frame}
 
-	\begin{frame}
-        \frametitle{Research Software Personas}
-        \begin{wideitemize}
-            \item research software engineers
-            \item statistics researcher
-            \item applied user
-        \end{wideitemize}
-    \end{frame}
+	%\begin{frame}
+    %    \frametitle{Who writes research software?}
+    %    \begin{wideitemize}
+    %        \item research software engineers
+    %        \item research software developer
+    %        \item applied user
+    %    \end{wideitemize}
+    %\end{frame}
 
     \begin{frame}
         \frametitle{A day in the live of \ldots}
-        a statistics researcher
+        a statistical methods researcher\\
         \vspace{0.8cm}
         \begin{wideitemize}
-            \item work with a specific type of model
+            \item<2-> work with a specific type of model
             \begin{itemize}
-            \item linear regression, deep learning, \ldots
+            \item<2-> regression, structural equation models, deep learning, \ldots
             \end{itemize}
-            \item have an idea
-            \item test it
-            \item make it available to applied researchers
+            \item<3-> have an idea
+            \item<4-> test it
+            \item<5-> make it available to applied researchers
         \end{wideitemize}
     \end{frame}
 
     \begin{frame}
-        \frametitle{Now we need software}
+        \frametitle{We need to write Software}
         \begin{wideitemize}
             \item to test $\to$ prototype
-            \item to make it available $\to$ deploy
+            \item to make it available $\to$ distribute
         \end{wideitemize}
 
     \vspace{0.5cm}
+
+    \pause
 
     What's the fastest way to get there?
 
     \vspace{0.5cm}
 
-    existing software
+    \pause
+
+    We are already working with existing software.
 
     \vspace{0.5cm}
 
-    \textbf{It would be nice if they could extend existing software}
+    \pause
+
+    \textbf{It would be nice if we could extend existing software!}
     \end{frame}
 
     \begin{frame}
         \frametitle{But \ldots}
         \begin{wideitemize}
-            \item \textbf{understand} 1000s of lines of code
-            \item make \textbf{changes}, possibly breaking stuff
-            \item get maintainers to \textbf{adopt} their changes
+            \item<2-> \textbf{understand} 1000s of lines of code
+            \item<3-> make \textbf{changes}, possibly breaking stuff
+            \item<4-> get maintainers to \textbf{adopt} our changes
         \end{wideitemize}
 
         \vspace{1cm}
 
-        \textbf{these hurdles are often too high!}
+        \only<5>{\textbf{these hurdles are often too high!}}
     \end{frame}
 
     \begin{frame}
-        \frametitle{A day in the live of \ldots}
+        \frametitle{A \only<1-2>{day}\only<3>{year} in the live of \ldots}
         \vspace{0.8cm}
         \begin{wideitemize}
-            \item to test: barebone, minimal reimplementation
+            \item<2-> to test: barebone, minimal reimplementation
             \begin{itemize}
                 \item waste of time
                 \item not well tested
                 \item hard to reproduce
+                \item slow
             \end{itemize}
-            \item to deploy: put their code on github
+            \item<3-> to deploy: put their code on github
             \begin{itemize}
                 \item bad user interface, no documentation
                 \item missing features
@@ -158,11 +165,9 @@
 
     \begin{frame}
         \frametitle{My Experience}
-        \vspace{0.8cm}
+        \vspace{1cm}
         \begin{wideitemize}
             \item from R $\to$ \raisebox{-.07\height}{\includegraphics[width=0.08\textwidth, valign=m]{figures/julia_logo.pdf}}
-            \item most R packages are very hard to extend
-            \item most \raisebox{-.07\height}{\includegraphics[width=0.08\textwidth, valign=m]{figures/julia_logo.pdf}} packages are very easy to extend
         \end{wideitemize}
     \end{frame}
 
@@ -177,166 +182,69 @@
     \end{frame}
 
     \begin{frame}
-        \frametitle{Software Design}
-        You need to be able to add new features...
+        \frametitle{An Example}
+        Let's make a thought experiment...
         \vspace{0.8cm}
         \begin{wideitemize}
-            \item without understanding existing code
-            \item without changing existing code
-            \item syntactical requirements need to be clear and easy communicable!
+            \item The Encyclopedia
+            \begin{itemize}
+                \item add an entry
+                \item some syntactical requirements\\
+                {\small 300-400 words, alphabetical, \ldots}
+            \end{itemize}
+            \item Book
+            \begin{itemize}
+                \item a draft already exists
+                \item add something everywhere it is applicable
+            \end{itemize}
         \end{wideitemize}
     \end{frame}
 
     \begin{frame}
-        \frametitle{Two modes of extension}
-        \vspace{0.5cm}
+        \frametitle{An Example}\vspace{0.5cm}
         \includegraphics[width=0.5\textwidth]{figures/lorem_ipsum_red.pdf}%
         \includegraphics[width=0.5\textwidth]{figures/lorem_ipsum_green.pdf}
     \end{frame}
 
-    \begin{frame}[fragile]
-        \frametitle{Why julia?}
-        In Julia, everything has a type:
-        % show the type of a vey things
-        \vspace{0.5cm}
-        \begin{lstlisting}[language=JuliaLocal, style=julia]
-a = 1.0
-typeof(a) # Float64
-
-b = "hello"
-typeof(b) # String\end{lstlisting}
+    \begin{frame}
+        \frametitle{Software Design}
+        \only<1>{Not all research articles can be encyclopedias, but maybe all research software can be...}
+        \pause
+        You need to be able to add new features...
+        \vspace{0.8cm}
+        \begin{wideitemize}
+            \item without \textbf{understanding} existing code
+            \item without \textbf{changing} existing code
+            \item syntactical requirements need to be \textbf{clear} and \textbf{easy communicatable}!
+        \end{wideitemize}
     \end{frame}
 
-    \begin{frame}[fragile]
-        \frametitle{Why julia?}
-        You can define your own types:
-        % define a walltime
+    \begin{frame}
+        \frametitle{The Benefits}
         \vspace{0.5cm}
-        \begin{lstlisting}[language=JuliaLocal, style=julia]
-struct ClockTime{T}
-    time::T
-end
-
-my_time = ClockTime(5.0) # ClockTime{Float64}(5.0)
-my_time.time # 5.0\end{lstlisting}
+        \begin{wideitemize}
+            \item Applied Researchers
+            \begin{itemize}
+                \item user interface
+                \item better documentation
+                \item faster availability of new features
+                \item less bugs
+                \item higher performance
+            \end{itemize}
+            \item Statistical Researchers
+            \begin{itemize}
+                \item no re-implementation $\to$ less time-consuming
+                \item more users
+                \item no software engineering skills needed
+            \end{itemize}
+            \item Maintainers
+            \begin{itemize}
+                \item changes are easier to integrate
+            \end{itemize}
+        \end{wideitemize}
     \end{frame}
-
-    \begin{frame}[fragile]
-        \frametitle{Why julia?}
-        A function is a collection of methods:
-        % show a base function with its methods
-        % define multiplication for our type and/or its supertype
-        \vspace{0.5cm}
-        \begin{lstlisting}[language=JuliaLocal, style=julia]
-typeof(1.0) # Float64
-typeof(1) # Int64
-
-@code_llvm 6.0*7.0
-@code_llvm 6*7
-
-methods(*)
-\end{lstlisting}
-    \end{frame}
-
-        \begin{frame}[fragile]
-        \frametitle{Why julia?}
-        We can write our own addition:
-        % show a base function with its methods
-        % define multiplication for our type and/or its supertype
-        \vspace{0.5cm}
-        \begin{lstlisting}[language=JuliaLocal, style=julia, basicstyle=\scriptsize\JuliaMonoRegular]
-import Base: +
-
-function +(x::ClockTime{T}, y::ClockTime{T}) where{T}
-    return ClockTime((x.time + y.time) % T(24))
-end
-
-my_time = ClockTime(11.2)
-your_time = ClockTime(18.4)
-
-our_time = my_time + your_time
-\end{lstlisting}
-    \end{frame}
-
-    \begin{frame}[fragile]
-        \frametitle{Goal achieved}
-        We have just written extensible code.\\
-        \vspace{0.5cm}
-        \textit{I have memory problems, and I only care about full hours.}
-        \vspace{0.5cm}
-        \begin{lstlisting}[language=JuliaLocal, style=julia]
-my_time = ClockTime(UInt8(5))
-your_time = ClockTime(UInt8(8))
-
-our_time = my_time + your_time\end{lstlisting}
-    \end{frame}
-
-        \begin{frame}[fragile]
-        \frametitle{Why julia?}
-        \textit{I want to multiply sparse matrices of clock times}
-        \vspace{0.5cm}
-        \begin{lstlisting}[language=JuliaLocal, style=julia, basicstyle=\scriptsize\JuliaMonoRegular]
-using SparseArrays
-
-import Base: zero, *
-
-function *(x::T, y::ClockTime{T}) where T
-    return ClockTime((x * y.time) % T(24))
-end
-
-zero(x::ClockTime{T}) where T = ClockTime(zero(T))
-zero(::Type{ClockTime{T}}) where T = ClockTime(zero(T))
-\end{lstlisting}
-    \end{frame}
-
-        \begin{frame}[fragile]
-        \frametitle{Why julia?}
-        Let's define some matrices!
-        \begin{lstlisting}[language=JuliaLocal, style=julia, basicstyle=\scriptsize\JuliaMonoRegular]
-a = zeros(ClockTime{Float64}, 20, 20)
-
-a[1,1] = ClockTime(5.0)
-a[1,2] = ClockTime(11.673)
-a[6,9] = ClockTime(17.23)
-a[16,4] = ClockTime(20.87)
-
-a_sparse = sparse(a)
-
-b = zeros(20, 20)
-b[3,9] = 1
-b[6,9] = sqrt(2)
-b[19,1] = π
-b[4,5] = ℯ
-
-b_sparse = sparse(b)
-\end{lstlisting}
-    \end{frame}
-
-            \begin{frame}[fragile]
-        \frametitle{Why julia?}
-        \vspace{0.5cm}
-        \begin{lstlisting}[language=JuliaLocal, style=julia,
-        basicstyle=\scriptsize\JuliaMonoRegular]
-using BenchmarkTools
-
-@benchmark b_sparse*a_sparse
-
-BenchmarkTools.Trial: 10000 samples with 199 evaluations.
- Range (min … max):  422.864 ns …  12.295 μs
- Time  (median):     453.877 ns
- Time  (mean ± σ):   566.627 ns ± 648.451 ns
-Memory estimate: 2.22 KiB
-
-@benchmark b*a
-
-BenchmarkTools.Trial: 10000 samples with 1 evaluation.
- Range (min … max):  56.683 μs …  1.323 ms
- Time  (median):     57.111 μs
- Time  (mean ± σ):   59.411 μs ± 18.922 μs
- Memory estimate: 23.75 KiB
-\end{lstlisting}
-    \end{frame}
-
+    
+    %%%%%%%%%%%%%%%%%%%%%%%%%% Aaron %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     \begin{frame}{A few days in a methods researchers life}
         \begin{wideitemize}
