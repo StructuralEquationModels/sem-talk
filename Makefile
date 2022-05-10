@@ -8,7 +8,7 @@ publish/: presentation.pdf
 	curl -sL https://www.toptal.com/developers/gitignore/api/LaTex,R,Julia,VisualStudioCode > .gitignore
 	cat .gitignore-manual >> .gitignore	
 
-presentation.pdf: presentation.tex fonts/ beamerthemeExecushares.sty figures/lorem_ipsum_green.pdf figures/lorem_ipsum_red.pdf figures/julia_logo.pdf
+presentation.pdf: presentation.tex fonts/ beamerthemeExecushares.sty figures/lorem_ipsum_green.pdf figures/lorem_ipsum_red.pdf figures/julia_logo.pdf figures/users.pdf figures/difficulty.pdf
 	xelatex $<
 
 beamerthemeExecushares.sty: latex/beamerthemeExecushares.sty
@@ -24,6 +24,12 @@ figures/lorem_ipsum_red.pdf: latex/lorem_ipsum_red.tex
 
 figures/julia_logo.pdf: figures/julia_logo.svg
 	inkscape --export-area-page --export-pdf=$@ $<
+
+figures/difficulty.pdf: julia/difficulty.jl
+	julia $<
+
+figures/users.pdf: julia/users.jl
+	julia $<
 
 fonts/:
 	mkdir -p $@
