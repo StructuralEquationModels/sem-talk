@@ -1,5 +1,5 @@
 
-# StructuralEquationModells.jl Talk
+# StructuralEquationModels.jl Talk
 
 <!-- badges: start -->
 <!-- badges: end -->
